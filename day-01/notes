@@ -1,1 +1,641 @@
+# 🐳 Day 1 - Docker Fundamentals
 
+> **Date:** July 12, 2026  
+> **Learning Time:** 2 Hours  
+> **Topic:** Docker Fundamentals, Architecture & Basic Commands
+
+---
+
+# 📖 What I Learned Today
+
+Today I started my Docker learning journey by understanding:
+
+- What Docker is
+- Why Docker was introduced
+- Traditional Application Deployment
+- Problems Before Docker
+- Evolution of Deployment
+- Docker Architecture
+- Docker Components
+- Docker Installation
+- Docker Best Practices
+- Basic Docker Commands
+
+---
+
+# 🚀 What is Docker?
+
+Docker is an **open-source containerization platform** that packages an application along with its dependencies, libraries, and runtime into a **container**.
+
+A Docker container ensures that an application runs consistently across different environments.
+
+### Without Docker
+
+```
+Developer Machine
+        │
+        ▼
+Testing Server
+        │
+        ▼
+Production Server
+
+Different OS
+Different Libraries
+Different Runtime Versions
+
+❌ Application Failure
+```
+
+### With Docker
+
+```
+Application
++ Dependencies
++ Runtime
++ Libraries
+
+        │
+        ▼
+
+ Docker Container
+
+        │
+        ▼
+
+Runs the Same Everywhere ✅
+```
+
+---
+
+# 🤔 Why Docker?
+
+Before Docker, developers often faced the famous issue:
+
+> **"It works on my machine!"**
+
+This happened because:
+
+- Different Operating Systems
+- Different Library Versions
+- Different Runtime Versions
+- Missing Dependencies
+
+Docker solves these problems by packaging everything required to run an application.
+
+---
+
+# 💻 Traditional Application Deployment
+
+Earlier, applications were installed directly on the Operating System.
+
+```
++--------------------------------+
+|        Operating System        |
++--------------------------------+
+| Java                           |
+| Python                         |
+| Node.js                        |
+| Apache                         |
+| MySQL                          |
+| Libraries                      |
++--------------------------------+
+|         Application            |
++--------------------------------+
+```
+
+All applications shared the same operating system.
+
+---
+
+# ❌ Problems Before Docker
+
+## 1️⃣ Dependency Conflicts
+
+Application A
+
+```
+Python 3.8
+```
+
+Application B
+
+```
+Python 3.12
+```
+
+Running both applications on the same server could cause conflicts.
+
+---
+
+## 2️⃣ Environment Issues
+
+Developer
+
+```
+Java 17
+```
+
+Production
+
+```
+Java 11
+```
+
+Application may fail due to version differences.
+
+---
+
+## 3️⃣ Resource Wastage
+
+Every application often required:
+
+- Dedicated Server
+- Separate Virtual Machine
+- Manual Configuration
+
+Result:
+
+- Higher Cost
+- Low Resource Utilization
+
+---
+
+## 4️⃣ Slow Deployment
+
+Every deployment required installing:
+
+- Runtime
+- Libraries
+- Dependencies
+- Configuration
+
+Deployment took significant time.
+
+---
+
+# 📈 Evolution of Application Deployment
+
+## 1. Physical Servers
+
+```
+One Physical Server
+        │
+        ▼
+ One Application
+```
+
+### Problems
+
+- Expensive
+- Poor Resource Utilization
+- Difficult to Scale
+
+---
+
+## 2. Virtual Machines
+
+```
+Physical Server
+        │
+        ▼
+ Hypervisor
+        │
+ ┌──────┼──────┐
+ ▼      ▼      ▼
+
+ VM1    VM2    VM3
+```
+
+### Advantages
+
+- Better Resource Usage
+- Multiple Operating Systems
+
+### Limitations
+
+- Heavy
+- Slow Startup
+- Large Storage
+
+---
+
+## 3. Docker Containers
+
+```
+Physical Server
+        │
+        ▼
+Operating System
+        │
+        ▼
+ Docker Engine
+        │
+ ┌──────┼──────┐
+ ▼      ▼      ▼
+
+Container Container Container
+```
+
+### Advantages
+
+- Lightweight
+- Fast
+- Portable
+- Efficient
+- Easy to Scale
+
+---
+
+# 📦 What is a Container?
+
+A container contains:
+
+```
+Application
++
+Runtime
++
+Libraries
++
+Dependencies
+```
+
+Containers share the host operating system but remain isolated from each other.
+
+---
+
+# 🏗 Docker Architecture
+
+```
+                  Docker Architecture
+
++---------------------------+
+|      Docker Client        |
+| docker build              |
+| docker run                |
+| docker pull               |
++------------+--------------+
+             |
+             | REST API
+             ▼
++---------------------------+
+|      Docker Daemon        |
+|         dockerd           |
++------------+--------------+
+             |
+      -------------------
+      |        |        |
+      ▼        ▼        ▼
+
+ Docker   Containers  Networks
+ Images
+
+             |
+             ▼
+
+          Volumes
+```
+
+---
+
+# 🧩 Docker Components
+
+## Docker Client
+
+The Docker Client is the command-line interface used by users.
+
+Example:
+
+```bash
+docker run nginx
+```
+
+---
+
+## Docker Daemon
+
+The Docker Daemon runs in the background and manages:
+
+- Images
+- Containers
+- Networks
+- Volumes
+
+---
+
+## Docker Images
+
+A Docker Image is a blueprint used to create containers.
+
+```
+Docker Image
+      │
+      ▼
+Docker Container
+```
+
+---
+
+## Docker Container
+
+A running instance of an image.
+
+```
+docker run nginx
+
+↓
+
+Running Nginx Container
+```
+
+---
+
+## Docker Registry
+
+A registry stores Docker images.
+
+Popular Registry:
+
+- Docker Hub
+
+Example:
+
+```bash
+docker pull nginx
+```
+
+---
+
+# 🔄 Docker Workflow
+
+```
+Dockerfile
+      │
+      ▼
+docker build
+      │
+      ▼
+Docker Image
+      │
+      ▼
+docker run
+      │
+      ▼
+Docker Container
+```
+
+---
+
+# 💻 Docker Installation
+
+### Windows
+
+- Install WSL2
+- Install Docker Desktop
+- Restart System
+
+Verify Installation
+
+```bash
+docker --version
+```
+
+---
+
+### Ubuntu
+
+```bash
+sudo apt update
+
+sudo apt install docker.io
+
+sudo systemctl start docker
+
+sudo systemctl enable docker
+```
+
+Verify
+
+```bash
+docker version
+```
+
+---
+
+# ⭐ Docker Best Practices
+
+✅ Use Official Images
+
+```
+nginx
+mysql
+python
+ubuntu
+```
+
+---
+
+✅ Use Specific Versions
+
+❌
+
+```
+node:latest
+```
+
+✅
+
+```
+node:20
+```
+
+---
+
+✅ Keep Images Small
+
+Example:
+
+```
+python:3.12-alpine
+```
+
+---
+
+✅ Don't Store Data Inside Containers
+
+Use Docker Volumes instead.
+
+---
+
+✅ Remove Unused Containers
+
+```bash
+docker container prune
+```
+
+---
+
+✅ Remove Unused Images
+
+```bash
+docker image prune
+```
+
+---
+
+# 📚 Basic Docker Commands
+
+## Check Docker Version
+
+```bash
+docker --version
+```
+
+---
+
+## Docker Information
+
+```bash
+docker info
+```
+
+---
+
+## Download Image
+
+```bash
+docker pull nginx
+```
+
+---
+
+## View Images
+
+```bash
+docker images
+```
+
+---
+
+## Run Container
+
+```bash
+docker run nginx
+```
+
+---
+
+## Run Container in Background
+
+```bash
+docker run -d nginx
+```
+
+---
+
+## Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+## All Containers
+
+```bash
+docker ps -a
+```
+
+---
+
+## Stop Container
+
+```bash
+docker stop <container_id>
+```
+
+---
+
+## Start Container
+
+```bash
+docker start <container_id>
+```
+
+---
+
+## Restart Container
+
+```bash
+docker restart <container_id>
+```
+
+---
+
+## Remove Container
+
+```bash
+docker rm <container_id>
+```
+
+---
+
+## Remove Image
+
+```bash
+docker rmi <image_name>
+```
+
+---
+
+## View Logs
+
+```bash
+docker logs <container_id>
+```
+
+---
+
+## Access Container
+
+```bash
+docker exec -it <container_id> bash
+```
+
+---
+
+# 📊 Traditional Deployment vs Docker
+---------------------------------------------------
+| Traditional Deployment | Docker                 |
+|------------------------|----------------------- |
+| Heavy                  | Lightweight            |
+| Slow Startup           | Fast Startup           |
+| Manual Configuration   | Automated              |
+| Environment Issues     | Consistent Environment |
+| Difficult Scaling      | Easy Scaling           |
+| More Resource Usage    | Less Resource Usage    |
+--------------------------------------------------
+---
+
+# 📝 Key Terminologies
+
+| Term | Meaning |
+|------|---------|
+| Docker -- Container Platform |
+| Image -- Blueprint for Containers |
+| Container-- Running Instance of an Image |
+| Docker Hub ---  Public Image Registry |
+| Dockerfile ----  Instructions to Build Images |
+| Volume ------Persistent Storage |
+| Network ----Communication Between Containers |
+| Docker Daemon ---- Background Service |
+
+---
+
+## 🙌 Connect With Me
+
+I'm documenting my daily DevOps learning journey to strengthen my understanding and build a knowledge repository.
+
+⭐ If you found these notes helpful, feel free to star this repository!
