@@ -1,0 +1,1071 @@
+# 🐳 Day 2 - Docker Images, Dockerfile & Container Lifecycle
+# 🐳 Day 2 - Docker Images, Dockerfile & Container Lifecycle
+
+> **Date:** July 19, 2026
+>
+> **Learning Duration:** 3 Hours
+>
+> **Topics Covered**
+>
+> - Docker Images
+> - Docker Containers
+> - Dockerfile
+> - Docker Image Lifecycle
+> - Docker Hub
+> - Docker Image Repositories
+> - Docker CLI Commands
+> - Creating Containers
+> - Pulling Images from Docker Hub
+> - Container Port Mapping
+
+---
+
+# 📚 What I Learned Today
+
+Today I explored the complete Docker image lifecycle—from creating a Dockerfile to building Docker images and running containers. I also learned how Docker images are stored in registries, how to authenticate with Docker Hub, and practiced working with multiple official Docker images.
+
+---
+
+# 🏗 Docker Image Lifecycle
+
+```
+                 Docker Image Lifecycle
+
+        Write Dockerfile
+               │
+               ▼
+        docker build
+               │
+               ▼
+          Docker Image
+               │
+               ▼
+          docker run
+               │
+               ▼
+        Docker Container
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+ docker stop     docker restart
+        │
+        ▼
+ docker rm
+```
+
+---
+
+# 📦 Docker Images
+
+A **Docker Image** is a lightweight, read-only package containing everything required to run an application.
+
+It includes:
+
+- Application Code
+- Runtime
+- Libraries
+- Dependencies
+- Environment Variables
+- Configuration Files
+
+An image acts as a **template** for creating containers.
+
+```
+Dockerfile
+      │
+      ▼
+Docker Image
+      │
+      ▼
+Docker Container
+```
+
+---
+
+# 📄 Dockerfile
+
+A **Dockerfile** is a text file containing instructions used to build a Docker image.
+
+Example:
+
+```dockerfile
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+
+EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
+```
+
+---
+
+# 📚 Common Dockerfile Instructions
+
+## FROM
+
+Specifies the base image.
+
+```dockerfile
+FROM nginx:latest
+```
+
+---
+
+## COPY
+
+Copies files from the local machine into the image.
+
+```dockerfile
+COPY index.html /usr/share/nginx/html/
+```
+
+---
+
+## EXPOSE
+
+Documents which port the application uses.
+
+```dockerfile
+EXPOSE 80
+```
+
+---
+
+## CMD
+
+Defines the default command executed when the container starts.
+
+```dockerfile
+CMD ["nginx","-g","daemon off;"]
+```
+
+---
+
+# 🏗 Building Docker Images
+
+Docker reads the Dockerfile and creates an image.
+
+```bash
+docker build -t my-nginx:v1 .
+```
+
+Explanation
+
+| Option | Description |
+|---------|-------------|
+| docker build | Builds an image |
+| -t | Assigns image name and tag |
+| . | Current directory (Build Context) |
+
+---
+
+# 🚀 Creating Docker Containers
+
+Containers are created from Docker Images.
+
+```
+Docker Image
+
+        │
+
+docker run
+
+        │
+
+Docker Container
+```
+
+Example
+
+```bash
+docker run -d -p 80:80 --name nginx-container nginx:latest
+```
+
+---
+
+# 🔍 Understanding the Command
+
+```bash
+docker run -d -p 80:80 --name nginx-container nginx:latest
+```
+
+| Option | Meaning |
+|---------|----------|
+| docker run | Creates and starts a container |
+| -d | Runs container in detached mode |
+| -p | Maps Host Port to Container Port |
+| 80:80 | Host Port → Container Port |
+| --name | Assigns a custom container name |
+| nginx:latest | Image used to create the container |
+
+---
+
+# 🌐 Docker Image Sources
+
+Docker images can be obtained in two ways.
+
+## Method 1
+
+Create your own image
+
+```
+Application
+
+↓
+
+Dockerfile
+
+↓
+
+docker build
+
+↓
+
+Docker Image
+```
+
+---
+
+## Method 2
+
+Pull pre-built images from Docker Hub
+
+```
+Docker Hub
+
+↓
+
+docker pull nginx
+
+↓
+
+Docker Image
+```
+
+---
+
+# ☁ Docker Image Registries
+
+Docker images are stored inside Image Registries.
+
+Today I learned about the following registries:
+
+| Registry | Description |
+|----------|-------------|
+| Docker Hub | Public Docker Image Registry |
+| Amazon ECR | AWS Elastic Container Registry |
+| JFrog Artifactory | Enterprise Artifact Repository |
+| Sonatype Nexus | Repository Manager for Docker & Other Artifacts |
+| Docker Trusted Registry (DTR) | Enterprise Docker Registry |
+
+---
+
+# 🔐 Docker Hub Login
+
+Authenticate Docker CLI with Docker Hub.
+
+```bash
+docker login
+```
+
+After successful authentication
+
+```
+Login Succeeded
+```
+
+Logout
+
+```bash
+docker logout
+```
+
+---
+
+# 📋 Docker Commands Practiced
+
+## Check Docker Version
+
+```bash
+docker --version
+```
+
+Example
+
+```
+Docker version 29.x.x
+```
+
+---
+
+## Detailed Docker Information
+
+```bash
+docker info
+```
+
+This command displays two sections.
+
+### Client Information
+
+- Docker CLI Version
+- Plugins
+- Context
+- Debug Status
+
+### Server Information
+
+- Docker Engine Version
+- Storage Driver
+- Running Containers
+- Images
+- CPU
+- Memory
+- Docker Root Directory
+- Operating System
+
+---
+
+## List Images
+
+```bash
+docker images
+```
+
+or
+
+```bash
+docker image ls
+```
+
+Both commands produce the same output.
+
+---
+
+## Running Containers
+
+```bash
+docker ps
+```
+
+Displays only running containers.
+
+---
+
+## All Containers
+
+```bash
+docker ps -a
+```
+
+Displays
+
+- Running
+- Exited
+- Created Containers
+
+---
+
+## Pull Images
+
+```bash
+docker pull nginx
+```
+
+```bash
+docker pull tomcat
+```
+
+```bash
+docker pull jenkins/jenkins
+```
+
+```bash
+docker pull sonatype/nexus3
+```
+
+---
+
+## Remove Image
+
+```bash
+docker rmi <image_name>
+```
+
+---
+
+## Remove Container
+
+```bash
+docker rm <container_name>
+```
+
+---
+
+## Stop Container
+
+```bash
+docker stop <container_name>
+```
+
+---
+
+## Restart Container
+
+```bash
+docker restart <container_name>
+```
+
+---
+
+# 🏛 Docker Architecture (High-Level)
+
+```
+               Docker Client
+                     │
+                     ▼
+               Docker Daemon
+                     │
+      ┌──────────────┼──────────────┐
+      ▼              ▼              ▼
+ Docker Images   Containers    Networks
+                     │
+                     ▼
+                  Volumes
+                     │
+                     ▼
+              Docker Registry
+```
+
+---
+
+# 🧩 Docker Image vs Docker Container
+
+| Docker Image | Docker Container |
+|--------------|------------------|
+| Read-only Template | Running Instance |
+| Immutable | Read/Write Layer |
+| Used to Create Containers | Executes Application |
+| Can be Shared | Temporary Runtime |
+
+---
+
+# 📝 Hands-on Practice
+
+Today I successfully:
+
+- Installed and verified Docker
+- Logged into Docker Hub
+- Checked Docker Version
+- Explored Docker Client & Server information
+- Pulled official Docker Images
+- Created containers from Docker Images
+- Practiced Docker CLI commands
+- Learned image lifecycle
+- Compared Docker Images and Containers
+- Explored different container registries
+
+---
+
+# 📥 Images Pulled Today
+
+| Image | Purpose |
+|--------|---------|
+| nginx | Web Server |
+| tomcat | Java Servlet Container |
+| jenkins/jenkins | CI/CD Automation Server |
+| sonatype/nexus3 | Artifact Repository Manager |
+
+---
+
+# 📌 Key Takeaways
+
+- Dockerfile is used to create Docker Images.
+- Docker Images are used to create Containers.
+- Containers are lightweight and isolated.
+- Images can be created locally or downloaded from Docker Hub.
+- Docker Hub is the most commonly used public image registry.
+- Enterprise environments often use Amazon ECR, Nexus, JFrog Artifactory, or Docker Trusted Registry.
+- Understanding Docker CLI commands is essential for managing images and containers.
+
+---
+
+# 🚀 Next Learning Goals
+
+- Docker Volumes
+- Docker Networks
+- Docker Compose
+- Dockerfile Best Practices
+- Multi-stage Builds
+- Docker Image Optimization
+- Docker Networking
+- Docker Compose Projects
+
+---
+
+# 📂 Repository Structure
+
+```
+Docker-Learning/
+
+│
+
+├── Day-01-Docker-Fundamentals/
+
+│     └── README.md
+
+│
+
+├── Day-02-Dockerfile-Images-Containers/
+
+│     ├── Dockerfile
+
+│     ├── index.html
+
+│     └── README.md
+
+│
+
+└── README.md
+```
+
+---
+
+# 💡 Reflection
+
+Today's session helped me understand the complete Docker workflow—from writing a Dockerfile to building an image and deploying it as a container. I also explored Docker registries such as Docker Hub, Amazon ECR, JFrog Artifactory, Nexus Repository, and Docker Trusted Registry. Through hands-on practice, I learned essential Docker commands, authenticated with Docker Hub, pulled multiple official images, and gained practical experience in managing Docker images and containers. This knowledge forms a strong foundation for the upcoming topics on Docker networking, volumes, Docker Compose, and container orchestration.
+> **Date:** July 19, 2026
+>
+> **Learning Duration:** 3 Hours
+>
+> **Topics Covered**
+>
+> - Docker Images
+> - Docker Containers
+> - Dockerfile
+> - Docker Image Lifecycle
+> - Docker Hub
+> - Docker Image Repositories
+> - Docker CLI Commands
+> - Creating Containers
+> - Pulling Images from Docker Hub
+> - Container Port Mapping
+
+---
+
+# 📚 What I Learned Today
+
+Today I explored the complete Docker image lifecycle—from creating a Dockerfile to building Docker images and running containers. I also learned how Docker images are stored in registries, how to authenticate with Docker Hub, and practiced working with multiple official Docker images.
+
+---
+
+# 🏗 Docker Image Lifecycle
+
+```
+                 Docker Image Lifecycle
+
+        Write Dockerfile
+               │
+               ▼
+        docker build
+               │
+               ▼
+          Docker Image
+               │
+               ▼
+          docker run
+               │
+               ▼
+        Docker Container
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+ docker stop     docker restart
+        │
+        ▼
+ docker rm
+```
+
+---
+
+# 📦 Docker Images
+
+A **Docker Image** is a lightweight, read-only package containing everything required to run an application.
+
+It includes:
+
+- Application Code
+- Runtime
+- Libraries
+- Dependencies
+- Environment Variables
+- Configuration Files
+
+An image acts as a **template** for creating containers.
+
+```
+Dockerfile
+      │
+      ▼
+Docker Image
+      │
+      ▼
+Docker Container
+```
+
+---
+
+# 📄 Dockerfile
+
+A **Dockerfile** is a text file containing instructions used to build a Docker image.
+
+Example:
+
+```dockerfile
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+
+EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
+```
+
+---
+
+# 📚 Common Dockerfile Instructions
+
+## FROM
+
+Specifies the base image.
+
+```dockerfile
+FROM nginx:latest
+```
+
+---
+
+## COPY
+
+Copies files from the local machine into the image.
+
+```dockerfile
+COPY index.html /usr/share/nginx/html/
+```
+
+---
+
+## EXPOSE
+
+Documents which port the application uses.
+
+```dockerfile
+EXPOSE 80
+```
+
+---
+
+## CMD
+
+Defines the default command executed when the container starts.
+
+```dockerfile
+CMD ["nginx","-g","daemon off;"]
+```
+
+---
+
+# 🏗 Building Docker Images
+
+Docker reads the Dockerfile and creates an image.
+
+```bash
+docker build -t my-nginx:v1 .
+```
+
+Explanation
+
+| Option | Description |
+|---------|-------------|
+| docker build | Builds an image |
+| -t | Assigns image name and tag |
+| . | Current directory (Build Context) |
+
+---
+
+# 🚀 Creating Docker Containers
+
+Containers are created from Docker Images.
+
+```
+Docker Image
+
+        │
+
+docker run
+
+        │
+
+Docker Container
+```
+
+Example
+
+```bash
+docker run -d -p 80:80 --name nginx-container nginx:latest
+```
+
+---
+
+# 🔍 Understanding the Command
+
+```bash
+docker run -d -p 80:80 --name nginx-container nginx:latest
+```
+
+| Option | Meaning |
+|---------|----------|
+| docker run | Creates and starts a container |
+| -d | Runs container in detached mode |
+| -p | Maps Host Port to Container Port |
+| 80:80 | Host Port → Container Port |
+| --name | Assigns a custom container name |
+| nginx:latest | Image used to create the container |
+
+---
+
+# 🌐 Docker Image Sources
+
+Docker images can be obtained in two ways.
+
+## Method 1
+
+Create your own image
+
+```
+Application
+
+↓
+
+Dockerfile
+
+↓
+
+docker build
+
+↓
+
+Docker Image
+```
+
+---
+
+## Method 2
+
+Pull pre-built images from Docker Hub
+
+```
+Docker Hub
+
+↓
+
+docker pull nginx
+
+↓
+
+Docker Image
+```
+
+---
+
+# ☁ Docker Image Registries
+
+Docker images are stored inside Image Registries.
+
+Today I learned about the following registries:
+
+| Registry | Description |
+|----------|-------------|
+| Docker Hub | Public Docker Image Registry |
+| Amazon ECR | AWS Elastic Container Registry |
+| JFrog Artifactory | Enterprise Artifact Repository |
+| Sonatype Nexus | Repository Manager for Docker & Other Artifacts |
+| Docker Trusted Registry (DTR) | Enterprise Docker Registry |
+
+---
+
+# 🔐 Docker Hub Login
+
+Authenticate Docker CLI with Docker Hub.
+
+```bash
+docker login
+```
+
+After successful authentication
+
+```
+Login Succeeded
+```
+
+Logout
+
+```bash
+docker logout
+```
+
+---
+
+# 📋 Docker Commands Practiced
+
+## Check Docker Version
+
+```bash
+docker --version
+```
+
+Example
+
+```
+Docker version 29.x.x
+```
+
+---
+
+## Detailed Docker Information
+
+```bash
+docker info
+```
+
+This command displays two sections.
+
+### Client Information
+
+- Docker CLI Version
+- Plugins
+- Context
+- Debug Status
+
+### Server Information
+
+- Docker Engine Version
+- Storage Driver
+- Running Containers
+- Images
+- CPU
+- Memory
+- Docker Root Directory
+- Operating System
+
+---
+
+## List Images
+
+```bash
+docker images
+```
+
+or
+
+```bash
+docker image ls
+```
+
+Both commands produce the same output.
+
+---
+
+## Running Containers
+
+```bash
+docker ps
+```
+
+Displays only running containers.
+
+---
+
+## All Containers
+
+```bash
+docker ps -a
+```
+
+Displays
+
+- Running
+- Exited
+- Created Containers
+
+---
+
+## Pull Images
+
+```bash
+docker pull nginx
+```
+
+```bash
+docker pull tomcat
+```
+
+```bash
+docker pull jenkins/jenkins
+```
+
+```bash
+docker pull sonatype/nexus3
+```
+
+---
+
+## Remove Image
+
+```bash
+docker rmi <image_name>
+```
+
+---
+
+## Remove Container
+
+```bash
+docker rm <container_name>
+```
+
+---
+
+## Stop Container
+
+```bash
+docker stop <container_name>
+```
+
+---
+
+## Restart Container
+
+```bash
+docker restart <container_name>
+```
+
+---
+
+# 🏛 Docker Architecture (High-Level)
+
+```
+               Docker Client
+                     │
+                     ▼
+               Docker Daemon
+                     │
+      ┌──────────────┼──────────────┐
+      ▼              ▼              ▼
+ Docker Images   Containers    Networks
+                     │
+                     ▼
+                  Volumes
+                     │
+                     ▼
+              Docker Registry
+```
+
+---
+
+# 🧩 Docker Image vs Docker Container
+
+| Docker Image | Docker Container |
+|--------------|------------------|
+| Read-only Template | Running Instance |
+| Immutable | Read/Write Layer |
+| Used to Create Containers | Executes Application |
+| Can be Shared | Temporary Runtime |
+
+---
+
+# 📝 Hands-on Practice
+
+Today I successfully:
+
+- Installed and verified Docker
+- Logged into Docker Hub
+- Checked Docker Version
+- Explored Docker Client & Server information
+- Pulled official Docker Images
+- Created containers from Docker Images
+- Practiced Docker CLI commands
+- Learned image lifecycle
+- Compared Docker Images and Containers
+- Explored different container registries
+
+---
+
+# 📥 Images Pulled Today
+
+| Image | Purpose |
+|--------|---------|
+| nginx | Web Server |
+| tomcat | Java Servlet Container |
+| jenkins/jenkins | CI/CD Automation Server |
+| sonatype/nexus3 | Artifact Repository Manager |
+
+---
+
+# 📌 Key Takeaways
+
+- Dockerfile is used to create Docker Images.
+- Docker Images are used to create Containers.
+- Containers are lightweight and isolated.
+- Images can be created locally or downloaded from Docker Hub.
+- Docker Hub is the most commonly used public image registry.
+- Enterprise environments often use Amazon ECR, Nexus, JFrog Artifactory, or Docker Trusted Registry.
+- Understanding Docker CLI commands is essential for managing images and containers.
+
+---
+
+# 🚀 Next Learning Goals
+
+- Docker Volumes
+- Docker Networks
+- Docker Compose
+- Dockerfile Best Practices
+- Multi-stage Builds
+- Docker Image Optimization
+- Docker Networking
+- Docker Compose Projects
+
+---
+
+# 📂 Repository Structure
+
+```
+Docker-Learning/
+
+│
+
+├── Day-01-Docker-Fundamentals/
+
+│     └── README.md
+
+│
+
+├── Day-02-Dockerfile-Images-Containers/
+
+│     ├── Dockerfile
+
+│     ├── index.html
+
+│     └── README.md
+
+│
+
+└── README.md
+```
+
+---
+
+# 💡 Reflection
+
+Today's session helped me understand the complete Docker workflow—from writing a Dockerfile to building an image and deploying it as a container. I also explored Docker registries such as Docker Hub, Amazon ECR, JFrog Artifactory, Nexus Repository, and Docker Trusted Registry. Through hands-on practice, I learned essential Docker commands, authenticated with Docker Hub, pulled multiple official images, and gained practical experience in managing Docker images and containers. This knowledge forms a strong foundation for the upcoming topics on Docker networking, volumes, Docker Compose, and container orchestration.
